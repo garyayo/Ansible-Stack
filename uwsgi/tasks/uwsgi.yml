@@ -1,0 +1,10 @@
+- name: Ensure Python uwsgi plugin is installed via pip
+  pip: name=uwsgi
+- name: Create uwsgi path
+  file: path=/etc/uwsgi/vassals/ state=directory
+- name: Ensure runs with the latest uwsgi configuration file
+  template: src=templates/mysite_uwsgi.ini dest=/etc/uwsgi/vassals/mysite.ini owner=vagrant
+- name: Copy rc.local over
+  template: src=templates/rc.local dest=/etc/rc.local owner=vagrant
+  notify:
+    - start uwsgi

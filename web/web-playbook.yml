@@ -1,0 +1,11 @@
+---
+- include: ../pythondev/pythondev-playbook.yml
+- hosts: ansible_web
+  vars_files:
+    - vars/default.yml
+  tasks:
+    - include: tasks/web.yml
+  # handlers:
+  #   - include: handlers/app.yml
+- include: ../nginx/nginx-playbook.yml
+- include: ../uwsgi/uwsgi-playbook.yml

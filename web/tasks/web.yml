@@ -1,0 +1,25 @@
+- name: Install git
+  sudo: yes
+  apt: pkg=git state=installed
+- name: Copy over id_rsa to ~/.ssh
+  template:
+    src: templates/id_rsa
+    dest: ~/.ssh/id_rsa
+    mode: 0600
+- name: Copy over id_rsa.pub to ~/.ssh
+  template:
+    src: templates/id_rsa.pub
+    dest: ~/.ssh/id_rsa.pub
+    mode: 0600
+- name: Pull down git repo
+  git:
+      repo: "{{ git_repo }}"
+      dest: "{{ project_path }}"
+      version: "{{ git_branch }}"
+      accept_hostkey: yes
+- name: Manually create the initial virtualenv
+  command: virtualenv /home/vagrant/testenv
+- name: Install requirements
+  pip:
+    requirements={{ requirements_file }}
+    virtualenv={{ virtualenv_path }}

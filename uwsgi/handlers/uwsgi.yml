@@ -1,0 +1,2 @@
+- name: start uwsgi
+  shell: /usr/local/bin/uwsgi --emperor /etc/uwsgi/vassals --daemonize /var/log/uwsgi-emperor.log

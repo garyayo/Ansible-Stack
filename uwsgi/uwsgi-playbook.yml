@@ -1,0 +1,8 @@
+---
+- hosts: ansible_web
+  sudo: yes
+  user: vagrant
+  tasks:
+    - include: tasks/uwsgi.yml
+  handlers:
+    - include: handlers/uwsgi.yml

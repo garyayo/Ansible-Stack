@@ -1,0 +1,12 @@
+- name: Installs nginx web server
+  apt: pkg=nginx state=installed update_cache=true
+  notify:
+    - start nginx
+- name: Ensure main Nginx configuration file is up to date
+  template: src=templates/mysite_nginx.conf dest=/etc/nginx/sites-enabled/mysite_nginx.conf
+  notify:
+    - restart nginx
+- name: Ensure Nginx does not have a default configuration
+  file: path=/etc/nginx/sites-enabled/default state=absent
+  notify:
+    - restart nginx

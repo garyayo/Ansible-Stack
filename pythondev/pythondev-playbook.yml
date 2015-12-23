@@ -1,0 +1,10 @@
+---
+- hosts: ansible_web
+  # vars_files:
+  #   - vars/default.yml
+  sudo: yes
+  user: vagrant
+  tasks:
+    - include: tasks/pythondev.yml
+  # handlers:
+  #   - include: handlers/app.yml

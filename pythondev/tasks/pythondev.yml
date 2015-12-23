@@ -1,0 +1,12 @@
+- name: Install base dev packages
+  sudo: yes
+  apt: name={{ item }} state=latest update_cache=true
+  with_items:
+     - python
+     - python-dev
+     - python-setuptools
+     - python-pip
+     - python-virtualenv
+     - libffi-dev
+     - libssl-dev
+     - libpq-dev

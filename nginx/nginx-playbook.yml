@@ -1,0 +1,10 @@
+---
+- hosts: ansible_web
+  sudo: yes
+  vars_files:
+    - vars/default.yml
+  user: "{{ default_user }}"
+  tasks:
+    - include: tasks/nginx.yml
+  handlers:
+    - include: handlers/nginx.yml
