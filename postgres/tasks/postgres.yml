@@ -1,0 +1,15 @@
+- name: Install base postgres packages
+  sudo: yes
+  apt: name={{ item }} state=latest update_cache=true
+  with_items:
+    - postgresql
+    - libpq-dev
+    - python-psycopg2
+- name: Ensure main postgres configuration file is up to date
+  template: src=templates/pg_hba.conf dest=/etc/postgresql/9.3/main/pg_hba.conf owner=vagrant
+  notify:
+    - restart postgres
+- name: Ensure main postgres configuration file is up to date
+  template: src=templates/postgresql.conf dest=/etc/postgresql/9.3/main/postgresql.conf owner=vagrant
+  notify:
+    - restart postgres

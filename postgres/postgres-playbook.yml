@@ -1,0 +1,20 @@
+---
+- hosts: ansible_db
+  sudo: yes
+  vars_files:
+    - vars/default.yml
+  user: "{{ default_user }}"
+  tasks:
+    - include: tasks/postgres.yml
+  handlers:
+    - include: handlers/postgres.yml
+
+#Setup mydb database
+- hosts: ansible_db
+  sudo: yes
+  vars_files:
+    - vars/default.yml
+  sudo_user: postgres
+  tasks:
+    - name: ensure database is created
+      postgresql_db: name="{{ dbname }}"
