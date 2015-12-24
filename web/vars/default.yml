@@ -1,3 +1,4 @@
+default_user: vagrant
 # App
 git_repo: git@github.com:garyayo/SaltStack-mysite.git
 git_branch: dev

@@ -83,17 +83,25 @@ Vagrant.configure(2) do |config|
     end
   end
 
-  # config.vm.define "ansible_web" do |ansible_web|
-  #   ansible_web.ssh.insert_key = false
-  #   ansible_web.vm.box = "ubuntu/trusty64"
-  #   ansible_web.vm.network "private_network", ip: "192.168.33.15"
-  #   ansible_web.vm.provision "ansible" do |ansible|
-  #     ansible.verbose = "v"
-  #     ansible.playbook = "nginx/nginx-playbook.yml"
-  #     ansible.playbook = "uwsgi/uwsgi-playbook.yml"
-  #     ansible.playbook = "python/pythondev-playbook.yml"
-  #     ansible.playbook = "app/app-playbook.yml"
-  #   end
-  # end
+  config.vm.define "ansible_db" do |ansible_db|
+    ansible_db.ssh.insert_key = false
+    ansible_db.vm.box = "ubuntu/trusty64"
+    ansible_db.vm.network "private_network", ip: "192.168.33.16"
+    ansible_db.vm.provision "ansible" do |ansible|
+      ansible.verbose = "v"
+      ansible.playbook = "postgres/postgres-playbook.yml"
+    end
+  end
 
+  config.vm.define "ansible_cache" do |ansible_cache|
+    ansible_cache.ssh.insert_key = false
+    ansible_cache.vm.box = "ubuntu/trusty64"
+    ansible_cache.vm.network "private_network", ip: "192.168.33.17"
+    ansible_cache.vm.provision "ansible" do |ansible|
+      ansible.verbose = "v"
+      ansible.playbook = ""
+    end
+  end
+
+  
 end

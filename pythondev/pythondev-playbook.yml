@@ -1,9 +1,9 @@
 ---
 - hosts: ansible_web
-  # vars_files:
-  #   - vars/default.yml
   sudo: yes
-  user: vagrant
+  vars_files:
+    - vars/default.yml
+  user: "{{ default_user }}"
   tasks:
     - include: tasks/pythondev.yml
   # handlers:
