@@ -18,7 +18,7 @@
       version: "{{ git_branch }}"
       accept_hostkey: yes
 - name: Manually create the initial virtualenv
-  command: virtualenv /home/vagrant/testenv
+  command: virtualenv "{{ virtualenv_path }}"
 - name: Install requirements
   pip:
     requirements={{ requirements_file }}

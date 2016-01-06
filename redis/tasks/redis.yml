@@ -1,0 +1,33 @@
+# Install redis from source
+- name: Install make package
+  apt: name=make update_cache=yes
+- name: Download redis from source
+  command: wget http://download.redis.io/redis-stable.tar.gz
+  args:
+      creates: redis-stable.tar.gz
+- name: Unpack redis
+  command: tar xvzf redis-stable.tar.gz
+  args:
+    creates: redis-stable/
+- name: make redis
+  command: make
+  args:
+    chdir: redis-stable/
+- name: make install
+  command: make install
+  args:
+    chdir: redis-stable/
+- name: Create redis /etc directory path
+  file: path=/etc/redis state=directory
+- name: Create redis /var directory path
+  file: path=/var/redis state=directory
+- name: Move redis_6379 file over
+  template: src=templates/redis_6379 dest=/etc/init.d/redis_6379 mode=0755
+- name: Move 6379.conf file over
+  template: src=templates/6379.conf dest=/etc/redis/6379.conf mode=0755
+- name: Create redis 6379 directory
+  file: path=/var/redis/6379 state=directory
+- name: Add redis default runlevels
+  command: update-rc.d redis_6379 defaults
+  notify:
+    - start redis

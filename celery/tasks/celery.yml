@@ -1,0 +1,110 @@
+# rabbitmq-server:
+#   pkg.installed:
+#     - name: rabbitmq-server
+#     - require:
+#       - pkg: setup-python
+- name: Install rabbitmq-server
+  sudo: yes
+  apt: pkg=rabbitmq-server state=installed update_cache=true
+
+# /etc/rabbitmq/rabbitmq.config:
+#   file.managed:
+#     - source: salt://celery/rabbitmq.config
+#     - require:
+#       - pkg: rabbitmq-server
+- name: Copy rabbitmq.config over
+  sudo: yes
+  template: src=templates/rabbitmq.config dest=/etc/rabbitmq/rabbitmq.config
+
+# setting-up-rabbitmq:
+#   cmd.run:
+#     - name: |
+#         rabbitmqctl add_user myuser mypassword
+#         rabbitmqctl add_vhost myvhost
+#         rabbitmqctl set_user_tags myuser mytag
+#         rabbitmqctl set_permissions -p myvhost myuser ".*" ".*" ".*"
+#     - require:
+#       - pkg: rabbitmq-server
+- name: Create rabbitmq user
+  sudo: yes
+  command: rabbitmqctl add_user myuser mypassword
+- name: Create rabbitmq vhost
+  sudo: yes
+  command: rabbitmqctl add_vhost myvhost
+- name: Set rabbitmq user tags
+  sudo: yes
+  command: rabbitmqctl set_user_tags myuser mytag
+- name: Set rabbitmq permissions
+  sudo: yes
+  command: rabbitmqctl set_permissions -p myvhost myuser ".*" ".*" ".*"
+
+# pip-install-celery:
+#   pip.installed:
+#     - name: celery
+#     - require:
+#       - pkg: rabbitmq-server
+- name: Pip install celery
+  sudo: yes
+  pip: name=celery
+
+# /etc/default/celeryd:
+#   file.managed:
+#     - source: salt://celery/default_celeryd
+#     - require:
+#       - pip: pip-install-celery
+- name: Copy default/celeryd over
+  sudo: yes
+  template: src=templates/default_celeryd dest=/etc/default/celeryd
+
+# /etc/init.d/celeryd:
+#   file.managed:
+#     - source: salt://celery/init.d_celeryd
+#     - mode: 755
+#     - require:
+#       - pip: pip-install-celery
+- name: Copy init.d/celeryd over
+  sudo: yes
+  template: src=templates/init.d_celeryd dest=/etc/init.d/celeryd mode=0755
+
+# celery-group:
+#   group.present:
+#     - name: celery
+- name: Create celery group
+  sudo: yes
+  group: name=celery state=present
+
+# celery-user:
+#   user.present:
+#     - name: celery
+#     - groups:
+#       - celery
+#     - require:
+#       - group: celery-group
+- name: Create celery user
+  sudo: yes
+  user: name=celery groups=celery state=present
+
+- name: chown /var/log/celery
+  sudo: yes
+  file: path=/var/log/celery owner=celery group=celery state=directory
+
+- name: chown /var/run/celery
+  sudo: yes
+  file: path=/var/run/celery owner=celery group=celery state=directory
+  notify:
+    - restart rabbitmq
+    - start celery
+
+# restart-rabbit:
+#   cmd.run:
+#     - user: root
+#     - name: sudo service rabbitmq-server restart
+#     - require:
+#       - pkg: rabbitmq-server
+
+# start-celery:
+#   cmd.run:
+#     - user: root
+#     - name: sudo /etc/init.d/celeryd start
+#     - require:
+#       - pip: pip-install-celery

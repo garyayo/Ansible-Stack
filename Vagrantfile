@@ -99,9 +99,18 @@ Vagrant.configure(2) do |config|
     ansible_cache.vm.network "private_network", ip: "192.168.33.17"
     ansible_cache.vm.provision "ansible" do |ansible|
       ansible.verbose = "v"
-      ansible.playbook = ""
+      ansible.playbook = "redis/redis-playbook.yml"
     end
   end
 
-  
+  config.vm.define "ansible_celery" do |ansible_celery|
+    ansible_celery.ssh.insert_key = false
+    ansible_celery.vm.box = "ubuntu/trusty64"
+    ansible_celery.vm.network "private_network", ip: "192.168.33.18"
+    ansible_celery.vm.provision "ansible" do |ansible|
+      ansible.verbose = "v"
+      ansible.playbook = "celery/celery-playbook.yml"
+    end
+  end
+
 end

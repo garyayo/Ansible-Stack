@@ -1,5 +1,5 @@
 ---
-- hosts: ansible_web
+- hosts: [ansible_web, ansible_celery]
   sudo: yes
   vars_files:
     - vars/default.yml

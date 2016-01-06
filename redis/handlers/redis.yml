@@ -1,0 +1,2 @@
+- name: start redis
+  command: /etc/init.d/redis_6379 start

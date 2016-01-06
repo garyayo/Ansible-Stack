@@ -1,10 +1,10 @@
 ---
-- hosts: ansible_web
+- hosts: ansible_cache
   sudo: yes
   vars_files:
     - vars/default.yml
   user: "{{ default_user }}"
   tasks:
-    - include: tasks/uwsgi.yml
+    - include: tasks/redis.yml
   handlers:
-    - include: handlers/uwsgi.yml
+    - include: handlers/redis.yml
