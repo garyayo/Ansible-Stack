@@ -6,6 +6,6 @@
   tasks:
     - include: tasks/web.yml
   # handlers:
-  #   - include: handlers/app.yml
+  #   - include: handlers/web.yml
 - include: ../nginx/nginx-playbook.yml
 - include: ../uwsgi/uwsgi-playbook.yml

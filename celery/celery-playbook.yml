@@ -2,7 +2,8 @@
 - include: ../pythondev/pythondev-playbook.yml
 - hosts: ansible_celery
   vars_files:
-    - ../web/vars/default.yml
+    # - ../web/vars/default.yml
+    - vars/default.yml
   tasks:
     - include: ../web/tasks/web.yml
     - include: tasks/celery.yml

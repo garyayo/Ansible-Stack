@@ -1,1 +1,6 @@
 default_user: vagrant
+chdir: /home/vagrant/mysite
+module: mysite.wsgi
+home: /home/vagrant/testenv
+socket: "{{ chdir }}/mysite.sock"
+uwsgi_conf_file: mysite_uwsgi.ini

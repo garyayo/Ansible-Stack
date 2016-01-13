@@ -3,7 +3,7 @@
   notify:
     - start nginx
 - name: Ensure main Nginx configuration file is up to date
-  template: src=templates/mysite_nginx.conf dest=/etc/nginx/sites-enabled/mysite_nginx.conf
+  template: "src=templates/{{ nginx_conf }} dest=/etc/nginx/sites-enabled/{{ nginx_conf }}"
   notify:
     - restart nginx
 - name: Ensure Nginx does not have a default configuration

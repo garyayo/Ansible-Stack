@@ -1,1 +1,8 @@
 default_user: vagrant
+# App
+git_repo: git@github.com:garyayo/SaltStack-mysite.git
+git_branch: ansible-dev
+project_path: ~/mysite
+# Virtualenv
+requirements_file: "{{ project_path }}/requirements.txt"
+virtualenv_path: ~/testenv

@@ -16,5 +16,5 @@
     - vars/default.yml
   sudo_user: postgres
   tasks:
-    - name: ensure database is created
+    - name: Create database
       postgresql_db: name="{{ dbname }}"

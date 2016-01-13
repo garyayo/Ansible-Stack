@@ -1,1 +1,8 @@
 default_user: vagrant
+server_name: 192.168.33.15
+proj_dir: /home/vagrant/mysite
+server_socket: "{{ proj_dir }}/mysite.sock"
+static_dir: "{{ proj_dir }}/static"
+media_dir: "{{ proj_dir }}/media"
+uwsgi_params: "{{proj_dir}}/uwsgi_params"
+nginx_conf: mysite_nginx.conf
