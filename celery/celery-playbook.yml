@@ -8,4 +8,8 @@
     - include: ../web/tasks/web.yml
     - include: tasks/celery.yml
   handlers:
-    - include: handlers/celery.yml
+    - name: restart rabbitmq
+      sudo: yes
+      service: name=rabbitmq-server state=restarted
+    - name: start celery
+      command: sudo /etc/init.d/celeryd start

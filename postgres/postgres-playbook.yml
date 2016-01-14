@@ -1,20 +1,22 @@
 ---
 - hosts: ansible_db
-  sudo: yes
+  become: yes
   vars_files:
     - vars/default.yml
   user: "{{ default_user }}"
   tasks:
     - include: tasks/postgres.yml
   handlers:
-    - include: handlers/postgres.yml
+    - name: restart postgres
+      action: service name=postgresql state=restarted
+
 
 #Setup mydb database
 - hosts: ansible_db
-  sudo: yes
+  become: yes
   vars_files:
     - vars/default.yml
-  sudo_user: postgres
+  become_user: postgres
   tasks:
     - name: Create database
       postgresql_db: name="{{ dbname }}"

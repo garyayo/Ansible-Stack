@@ -1,10 +1,11 @@
 ---
 - hosts: ansible_cache
-  sudo: yes
+  become: yes
   vars_files:
     - vars/default.yml
   user: "{{ default_user }}"
   tasks:
     - include: tasks/redis.yml
   handlers:
-    - include: handlers/redis.yml
+    - name: start redis
+      command: /etc/init.d/redis_6379 start

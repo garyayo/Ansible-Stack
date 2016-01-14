@@ -7,4 +7,7 @@
   tasks:
     - include: tasks/nginx.yml
   handlers:
-    - include: handlers/nginx.yml
+    - name: start nginx
+      service: name=nginx state=started
+    - name: restart nginx
+      action: service name=nginx state=restarted
