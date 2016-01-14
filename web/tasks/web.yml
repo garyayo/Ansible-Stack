@@ -1,5 +1,5 @@
 - name: Install git
-  sudo: yes
+  become: yes
   apt: pkg=git state=installed
 - name: Copy over id_rsa to ~/.ssh
   template:

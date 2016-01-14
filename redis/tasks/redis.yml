@@ -2,21 +2,21 @@
 - name: Install make package
   apt: name=make update_cache=yes
 - name: Download redis from source
-  command: wget http://download.redis.io/redis-stable.tar.gz
-  args:
-      creates: redis-stable.tar.gz
+  get_url: url=http://download.redis.io/redis-stable.tar.gz dest=/tmp/
+  # args:
+  #     creates: redis-stable.tar.gz
 - name: Unpack redis
-  command: tar xvzf redis-stable.tar.gz
-  args:
-    creates: redis-stable/
+  unarchive: src=/tmp/redis-stable.tar.gz dest=/tmp/ copy=no
+  # args:
+  #   creates: redis-stable/
 - name: make redis
   command: make
   args:
-    chdir: redis-stable/
+    chdir: /tmp/redis-stable/
 - name: make install
   command: make install
   args:
-    chdir: redis-stable/
+    chdir: /tmp/redis-stable/
 - name: Create redis /etc directory path
   file: path=/etc/redis state=directory
 - name: Create redis /var directory path

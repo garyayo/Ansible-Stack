@@ -1,6 +1,6 @@
 ---
 - hosts: [ansible_web, ansible_celery]
-  sudo: yes
+  become: yes
   vars_files:
     - vars/default.yml
   user: "{{ default_user }}"
